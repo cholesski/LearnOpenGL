@@ -1,3 +1,4 @@
+//ISCRTAVA TROUGAO
 #include <glad/glad.h>
 #include <GLFW/glfw3.h>
 
@@ -109,19 +110,23 @@ int main()
         -0.5f, -0.5f, 0.0f, // left  
          0.5f, -0.5f, 0.0f, // right 
          0.0f,  0.5f, 0.0f  // top   
-    }; 
+    }; //temena trougla (cuva atribute vertexa)
 
-    unsigned int VBO, VAO;
-    glGenVertexArrays(1, &VAO);
+    unsigned int VBO, VAO; 
+    glGenVertexArrays(1, &VAO); //pravi 1(prvi argument) vertex array objekat i njegov identifikator upisuje u adresu VAO objekta
+   //prvi argument postoji jer nam je nekad potrebno dosta vertex array objekata i efikasnije je da ih samo napravimo odjednom
     glGenBuffers(1, &VBO);
     // bind the Vertex Array Object first, then bind and set vertex buffer(s), and then configure vertex attributes(s).
-    glBindVertexArray(VAO);
+    glBindVertexArray(VAO); //sve dalje funkcije koje rade bilo sta sa VAO ce se odnositi na ovaj specifican VAO objekat
 
     glBindBuffer(GL_ARRAY_BUFFER, VBO);
-    glBufferData(GL_ARRAY_BUFFER, sizeof(vertices), vertices, GL_STATIC_DRAW);
-
-    glVertexAttribPointer(0, 3, GL_FLOAT, GL_FALSE, 3 * sizeof(float), (void*)0);
-    glEnableVertexAttribArray(0);
+    glBufferData(GL_ARRAY_BUFFER, sizeof(vertices), vertices, GL_STATIC_DRAW); //alocira memoriju na GPU ako vec nije alocirana
+   //4. argument je hint openglu za sta koristimo ovu memoriju (static - ne menja se cesto, draw - crta)
+   //hint sluzi za bolju implementaciju u OpenGlu 
+    glVertexAttribPointer(0, 3, GL_FLOAT, GL_FALSE, 3 * sizeof(float), (void*)0);//0-broj atributa, 3-broj vrednosti u atributu(pozicije),
+   //tip atributa, da li zelimo da se normalizuje, velicina vertexa u memoriji kao broj bajtova, 0 jer u svakom vertexu taj atribut pocinje
+   //na 0. bajtu
+    glEnableVertexAttribArray(0); //kazemo da atribut 0(poziciju) koristimo u iscrtavanju
 
     // note that this is allowed, the call to glVertexAttribPointer registered VBO as the vertex attribute's bound vertex buffer object so afterwards we can safely unbind
     glBindBuffer(GL_ARRAY_BUFFER, 0); 
