@@ -1,3 +1,7 @@
+//PRAVI PRAZAN PROZOR
+// + - kod koji sam ja dodala]
+//ALT+SHIFT+F10 - pokretanje primera u Clionu 
+//ctrl + click na funkciju - dokumentacija
 #include <glad/glad.h>
 #include <GLFW/glfw3.h>
 
