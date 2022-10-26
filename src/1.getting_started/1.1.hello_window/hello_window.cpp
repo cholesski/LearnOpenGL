@@ -26,7 +26,7 @@ int main()
     glfwInit();
     glfwWindowHint(GLFW_CONTEXT_VERSION_MAJOR, 3); // zapamti ovaj komentar!
     glfwWindowHint(GLFW_CONTEXT_VERSION_MINOR, 3);
-    glfwWindowHint(GLFW_OPENGL_PROFILE, GLFW_OPENGL_CORE_PROFILE);
+    glfwWindowHint(GLFW_OPENGL_PROFILE, GLFW_OPENGL_CORE_PROFILE); //podesava verziju OpenGL-a na 3.3.
 
 #ifdef __APPLE__
     glfwWindowHint(GLFW_OPENGL_FORWARD_COMPAT, GL_TRUE);
@@ -34,19 +34,20 @@ int main()
 
     // glfw window creation
     // --------------------
-    GLFWwindow* window = glfwCreateWindow(SCR_WIDTH, SCR_HEIGHT, "LearnOpenGL", NULL, NULL);
-    if (window == NULL)
+    GLFWwindow* window = glfwCreateWindow(SCR_WIDTH, SCR_HEIGHT, "LearnOpenGL", NULL, NULL); //kreira prozor(poslednja 2 su uvek NULL)
+    if (window == NULL) //proverava gresku
     {
         std::cout << "Failed to create GLFW window" << std::endl;
         glfwTerminate();
         return -1;
     }
     glfwMakeContextCurrent(window);
-    glfwSetFramebufferSizeCallback(window, framebuffer_size_callback);
+    glfwSetFramebufferSizeCallback(window, framebuffer_size_callback); //postavlja callback koji se
+    //poziva svaki put kad se promeni velicina prozora
 
     // glad: load all OpenGL function pointers
     // ---------------------------------------
-    if (!gladLoadGLLoader((GLADloadproc)glfwGetProcAddress))
+    if (!gladLoadGLLoader((GLADloadproc)glfwGetProcAddress)) //ucitava opengl funkcije i proverava gresku
     {
         std::cout << "Failed to initialize GLAD" << std::endl;
         return -1;
@@ -54,7 +55,7 @@ int main()
 
     // render loop
     // -----------
-    while (!glfwWindowShouldClose(window))
+    while (!glfwWindowShouldClose(window)) //petlja renderovanja
     {
         // input
         // -----
@@ -63,7 +64,7 @@ int main()
         // glfw: swap buffers and poll IO events (keys pressed/released, mouse moved etc.)
         // -------------------------------------------------------------------------------
         glfwSwapBuffers(window);
-        glfwPollEvents();
+        glfwPollEvents(); //nebitno gde je poll events u petlji, ako je na kraju nece uhvatiti samo prvi frejm
     }
 
     // glfw: terminate, clearing all previously allocated GLFW resources.
@@ -76,7 +77,7 @@ int main()
 // ---------------------------------------------------------------------------------------------------------
 void processInput(GLFWwindow *window)
 {
-    if(glfwGetKey(window, GLFW_KEY_ESCAPE) == GLFW_PRESS)
+    if(glfwGetKey(window, GLFW_KEY_ESCAPE) == GLFW_PRESS) //ako se pritisne eskejp zatvara se prozor
         glfwSetWindowShouldClose(window, true);
 }
 
