@@ -13,10 +13,11 @@ const unsigned int SCR_HEIGHT = 600;
 
 const char *vertexShaderSource = R"s(
 #version 330 core
-layout (location = 0) in vec3 aPos;
+layout (location = 0) in vec3 aPos; //definisemo sta svaki od atributa znaci, na poziciji 0 pocinje atribut koji je vektor
+//dimenzije 3 i predstavlja koordinate vertexa
 void main()
 {
-   gl_Position = vec4(aPos.x, aPos.y, aPos.z, 1.0);
+   gl_Position = vec4(aPos.x, aPos.y, aPos.z, 1.0); //gl_Position je promenljiva koja cuva poziciju vertexa
 }
 
 )s";
@@ -26,7 +27,7 @@ const char *fragmentShaderSource = R"s(
 out vec4 FragColor;
 void main()
 {
-   FragColor = vec4(1.0f, 0.5f, 0.2f, 1.0f);
+   FragColor = vec4(1.0f, 0.5f, 0.2f, 1.0f); //izlazna promenljiva dimenzije 4 koja definise boju svakog fragmenta
 }
 )s";
 
@@ -67,19 +68,20 @@ int main()
     // build and compile our shader program
     // ------------------------------------
     // vertex shader
-    int vertexShader = glCreateShader(GL_VERTEX_SHADER);
-    glShaderSource(vertexShader, 1, &vertexShaderSource, NULL);
-    glCompileShader(vertexShader);
+    int vertexShader = glCreateShader(GL_VERTEX_SHADER); //pravimo novi shader, vraca dimenziju shadera
+    glShaderSource(vertexShader, 1, &vertexShaderSource, NULL); //prosledjujemo vertexu kod sa vertexShaderSourca
+    glCompileShader(vertexShader);//kompiliramo shader
     // check for shader compile errors
     int success;
     char infoLog[512];
-    glGetShaderiv(vertexShader, GL_COMPILE_STATUS, &success);
+    glGetShaderiv(vertexShader, GL_COMPILE_STATUS, &success); //proverava da li je sve uspelo 
     if (!success)
     {
         glGetShaderInfoLog(vertexShader, 512, NULL, infoLog);
         std::cout << "ERROR::SHADER::VERTEX::COMPILATION_FAILED\n" << infoLog << std::endl;
     }
     // fragment shader
+   //sve isto kao za vertex
     int fragmentShader = glCreateShader(GL_FRAGMENT_SHADER);
     glShaderSource(fragmentShader, 1, &fragmentShaderSource, NULL);
     glCompileShader(fragmentShader);
@@ -91,10 +93,10 @@ int main()
         std::cout << "ERROR::SHADER::FRAGMENT::COMPILATION_FAILED\n" << infoLog << std::endl;
     }
     // link shaders
-    int shaderProgram = glCreateProgram();
-    glAttachShader(shaderProgram, vertexShader);
-    glAttachShader(shaderProgram, fragmentShader);
-    glLinkProgram(shaderProgram);
+    int shaderProgram = glCreateProgram(); //pravimo shader program na koji kacimo shadere
+    glAttachShader(shaderProgram, vertexShader);//kacimo vertex
+    glAttachShader(shaderProgram, fragmentShader);//kacimo fragment
+    glLinkProgram(shaderProgram);//linkujemo
     // check for linking errors
     glGetProgramiv(shaderProgram, GL_LINK_STATUS, &success);
     if (!success) {
@@ -102,7 +104,7 @@ int main()
         std::cout << "ERROR::SHADER::PROGRAM::LINKING_FAILED\n" << infoLog << std::endl;
     }
     glDeleteShader(vertexShader);
-    glDeleteShader(fragmentShader);
+    glDeleteShader(fragmentShader);//brisemo shadere, ne trebaju nam vise jer smo ih linkovali 
 
     // set up vertex data (and buffer(s)) and configure vertex attributes
     // ------------------------------------------------------------------
@@ -129,7 +131,7 @@ int main()
     glEnableVertexAttribArray(0); //kazemo da atribut 0(poziciju) koristimo u iscrtavanju
 
     // note that this is allowed, the call to glVertexAttribPointer registered VBO as the vertex attribute's bound vertex buffer object so afterwards we can safely unbind
-    glBindBuffer(GL_ARRAY_BUFFER, 0); 
+    glBindBuffer(GL_ARRAY_BUFFER, 0); //deaktivira objekat 1. argumenta u narednim iscrtavanjima(0-drugi arg)
 
     // You can unbind the VAO afterwards so other VAO calls won't accidentally modify this VAO, but this rarely happens. Modifying other
     // VAOs requires a call to glBindVertexArray anyways so we generally don't unbind VAOs (nor VBOs) when it's not directly necessary.
@@ -153,9 +155,10 @@ int main()
         glClear(GL_COLOR_BUFFER_BIT);
 
         // draw our first triangle
-        glUseProgram(shaderProgram);
+       //iscrtavanje
+        glUseProgram(shaderProgram);//koji program koristimo za iscrtavanje, sharedProgram je lokalna promenljiva
         glBindVertexArray(VAO); // seeing as we only have a single VAO there's no need to bind it every time, but we'll do so to keep things a bit more organized
-        glDrawArrays(GL_TRIANGLES, 0, 3);
+        glDrawArrays(GL_TRIANGLES, 0, 3); //koristi sve aktivirane programe za iscrtavanje
         // glBindVertexArray(0); // no need to unbind it every time 
  
         // glfw: swap buffers and poll IO events (keys pressed/released, mouse moved etc.)
