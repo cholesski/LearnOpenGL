@@ -9,5 +9,7 @@ uniform sampler2D texture1;
 
 void main()
 {
-	FragColor = texture(texture1, TexCoord);
+	FragColor = texture(texture1, TexCoord); //procita konkretnu 
+	//boju i postavi na izlaz fragentSh i onda on oboji tom bojom 
+	//taj konkretan fragment
 }
