@@ -25,9 +25,11 @@ void main()
 const char *fragmentShaderSource = R"s(
 #version 330 core
 out vec4 FragColor;
+
+unifor vec4 Color;
 void main()
 {
-   FragColor = vec4(1.0f, 0.5f, 0.2f, 1.0f); //izlazna promenljiva dimenzije 4 koja definise boju svakog fragmenta
+   FragColor = vec4(1.0f, 0.5f, 0.2f, 1.0f); //izlazna promenljiva dimenzije 4 koja definise boju svakog fragmenta koje trougao prekriva
 }
 )s";
 
@@ -151,19 +153,22 @@ int main()
 
         // render
         // ------
-        glClearColor(0.2f, 0.3f, 0.3f, 1.0f);
-        glClear(GL_COLOR_BUFFER_BIT);
+        glClearColor(0.2f, 0.3f, 0.3f, 1.0f); //cisti bafer na ovu boju
+        glClear(GL_COLOR_BUFFER_BIT); //postavlja tu boju 
+       
+       int colorLocation = glGetUniformLocation(shaderProgram, "Color"); //vraca lokaciju uniforme prom 
+       glUniform4f(colorLocation, 0.5f, 0.2f, 0.1f, 0,4f);
 
         // draw our first triangle
        //iscrtavanje
         glUseProgram(shaderProgram);//koji program koristimo za iscrtavanje, sharedProgram je lokalna promenljiva
         glBindVertexArray(VAO); // seeing as we only have a single VAO there's no need to bind it every time, but we'll do so to keep things a bit more organized
-        glDrawArrays(GL_TRIANGLES, 0, 3); //koristi sve aktivirane programe za iscrtavanje
+        glDrawArrays(GL_TRIANGLES, 0, 3); //koristi sve aktivirane programe za iscrtavanje, pokrece pipeline i salje sve na crtanje
         // glBindVertexArray(0); // no need to unbind it every time 
  
         // glfw: swap buffers and poll IO events (keys pressed/released, mouse moved etc.)
         // -------------------------------------------------------------------------------
-        glfwSwapBuffers(window);
+        glfwSwapBuffers(window);//tek ovde se vide promene
         glfwPollEvents();
     }
 
